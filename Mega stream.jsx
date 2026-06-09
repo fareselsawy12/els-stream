@@ -356,7 +356,6 @@ const SmartPlayer = ({ src, iframeKey, onTryNext, hasNext, directUrl }) => {
         scrolling="no"
         title="ELS Stream Engine"
         referrerPolicy="no-referrer"
-        sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-fullscreen"
         onLoad={handleLoad}
         onError={handleError}
         style={{ opacity: status === "ready" ? 1 : 0, position: "absolute", inset: 0, width: "100%", height: "100%" }}
