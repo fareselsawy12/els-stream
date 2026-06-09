@@ -364,25 +364,25 @@ const SmartPlayer = ({ src, iframeKey, onTryNext, hasNext, directUrl }) => {
       {status === "loading" && (
         <div className="player-loading">
           <div className="player-spinner" />
-          <div className="player-loading-text">جاري تحميل المشغل...</div>
+          <div className="player-loading-text">Loading player...</div>
         </div>
       )}
 
       {status === "error" && (
         <div className="player-error">
           <div className="player-error-icon"><AlertIcon size={48} /></div>
-          <div className="player-error-title">تعذّر تشغيل هذا الخادم</div>
+          <div className="player-error-title">Unable to play this server</div>
           <div className="player-error-desc">
-            قد يكون الخادم محجوباً في متصفحك أو يتطلب فتحه في تبويب جديد.
-            جرّب خادماً آخر أو افتح الرابط مباشرةً.
+            The server may be blocked in your browser or require opening in a new tab.
+            Try another server or open the link directly.
           </div>
           <div className="player-error-actions">
-            <a className="btn-open-tab" href={directUrl} target="_blank" rel="noreferrer">
-              <ExternalLinkIcon size={14} /> فتح في تبويب جديد
+              <a className="btn-open-tab" href={directUrl} target="_blank" rel="noreferrer">
+              <ExternalLinkIcon size={14} /> Open in new tab
             </a>
             {hasNext && (
               <button className="btn-try-next" onClick={onTryNext}>
-                ⚡ جرّب الخادم التالي
+                ⚡ Try next server
               </button>
             )}
           </div>
@@ -415,31 +415,7 @@ const DetailPage = ({ movie, onBack, onPlayEpisode }) => {
 
   const servers = [
     {
-      name: "الخادم الأول",
-      url: isMovie
-        ? `https://vidsrc.xyz/embed/movie?tmdb=${tmdbId}`
-        : `https://vidsrc.xyz/embed/tv?tmdb=${tmdbId}&season=${activeSeason}&episode=${activeEpisode}`
-    },
-    {
-      name: "الخادم الثاني",
-      url: isMovie
-        ? `https://embed.su/embed/movie/${tmdbId}`
-        : `https://embed.su/embed/tv/${tmdbId}/${activeSeason}/${activeEpisode}`
-    },
-    {
-      name: "الخادم الثالث",
-      url: isMovie
-        ? `https://autoembed.cc/movie/tmdb/${tmdbId}`
-        : `https://autoembed.cc/tv/tmdb/${tmdbId}-${activeSeason}-${activeEpisode}`
-    },
-    {
-      name: "الخادم الرابع",
-      url: isMovie
-        ? `https://moviesapi.club/movie/${tmdbId}`
-        : `https://moviesapi.club/tv/${tmdbId}-${activeSeason}-${activeEpisode}`
-    },
-    {
-      name: "الخادم الخامس",
+      name: "Main",
       url: isMovie
         ? `https://www.2embed.cc/embed/${tmdbId}`
         : `https://www.2embed.cc/embedtv/${tmdbId}&s=${activeSeason}&e=${activeEpisode}`
@@ -541,21 +517,21 @@ const DetailPage = ({ movie, onBack, onPlayEpisode }) => {
             
             <button className={`action-btn ${isLiked ? "liked" : ""}`} onClick={toggleWatchlist}>
               <HeartIcon size={16} filled={isLiked} />
-              {isLiked ? "مسجل في قائمتك" : "إضافة إلى قائمتي"}
+              {isLiked ? "Saved to your list" : "Add to my list"}
             </button>
           </div>
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", alignItems: "center" }}>
-          <button className="btn btn-secondary" onClick={onBack}>
-            <ArrowLeft size={16} /> العودة للرئيسية
+            <button className="btn btn-secondary" onClick={onBack}>
+            <ArrowLeft size={16} /> Back to Home
           </button>
           <div style={{ textAlign: "right" }}>
             <h1 style={{ fontWeight: 900, fontSize: "1.8rem", color: "#fff", marginBottom: "0.5rem" }}>
-              {title} {!isMovie && ` - موسم ${activeSeason} (الحلقة ${activeEpisode})`}
+              {title} {!isMovie && ` - Season ${activeSeason} (Episode ${activeEpisode})`}
             </h1>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", justifyContent: "flex-end", color: "var(--text-secondary)", fontSize: "0.95rem" }}>
-              <span style={{ color: "var(--accent)", fontWeight: 700 }}>{isMovie ? "🎬 فيلم" : "📺 مسلسل / أنمي"}</span>
+              <span style={{ color: "var(--accent)", fontWeight: 700 }}>{isMovie ? "🎬 Movie" : "📺 TV Show / Anime"}</span>
               <span>•</span>
               <span>{year}</span>
               <span>•</span>
@@ -567,14 +543,14 @@ const DetailPage = ({ movie, onBack, onPlayEpisode }) => {
         </div>
 
         <p className="detail-desc">
-          {movie.overview || "لا يوجد وصف مترجم لهذا العمل حالياً باللغة العربية. يمكنك بدء مشاهدة العمل مباشرة عبر مشغلات البث الذكية بالاعلى."}
+          {movie.overview || "No translated description is available at the moment. You can start watching directly via the stream players above."}
         </p>
 
         {!isMovie && seasons.length > 0 && (
           <div className="seasons-wrapper">
             <div className="seasons-header-title">
               <LayersIcon size={18} />
-              <span>فصول ومواسم العرض</span>
+              <span>Seasons & Episodes</span>
             </div>
             
             <div className="seasons-list">
@@ -584,21 +560,21 @@ const DetailPage = ({ movie, onBack, onPlayEpisode }) => {
                   className={`season-tab ${activeSeason === s.season_number ? "active" : ""}`}
                   onClick={() => { setActiveSeason(s.season_number); setActiveEpisode(1); }}
                 >
-                  {s.name || `الموسم ${s.season_number}`}
+                  {s.name || `Season ${s.season_number}`}
                 </button>
               ))}
             </div>
 
             <div style={{ marginTop: "2.5rem" }} className="seasons-header-title">
               <PlayIcon size={16} />
-              <span>حلقات الموسم المتاحة ({episodes.length})</span>
+              <span>Available Episodes ({episodes.length})</span>
             </div>
 
             <div className="episodes-grid">
               {loadingEpisodes ? (
                 Array(4).fill(0).map((_, i) => <div key={i} style={{ aspectRatio: "16/10" }} className="skeleton-bg" />)
-              ) : episodes.length === 0 ? (
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>قريباً.. جاري الحشد ومزامنة خوادم الحلقات.</p>
+                ) : episodes.length === 0 ? (
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Coming soon... syncing episode servers.</p>
               ) : (
                 episodes.map((ep) => (
                   <div
@@ -618,11 +594,11 @@ const DetailPage = ({ movie, onBack, onPlayEpisode }) => {
                           <PlayIcon size={12} />
                         </div>
                       </div>
-                      <div className="episode-badge">الحلقة {ep.episode_number}</div>
+                      <div className="episode-badge">Episode {ep.episode_number}</div>
                     </div>
                     <div className="episode-meta-info">
-                      <div className="episode-name">{ep.name || `الحلقة ${ep.episode_number}`}</div>
-                      <div className="episode-overview">{ep.overview || "لا يوجد ملخص متاح لهذه الحلقة."}</div>
+                      <div className="episode-name">{ep.name || `Episode ${ep.episode_number}`}</div>
+                      <div className="episode-overview">{ep.overview || "No summary available for this episode."}</div>
                     </div>
                   </div>
                 ))
@@ -768,11 +744,11 @@ export default function App() {
         </div>
         <div className="nav-links">
           {[
-            ["home", "🏠 الرئيسية"],
-            ["movies", "🎬 الأفلام"],
-            ["tvshows", "📺 المسلسلات"],
-            ["anime", "🎌 الأنمي"],
-            ["watchlist", "❤️ قائمتي"]
+            ["home", "🏠 Home"],
+            ["movies", "🎬 Movies"],
+            ["tvshows", "📺 TV Shows"],
+            ["anime", "🎌 Anime"],
+            ["watchlist", "❤️ Watchlist"]
           ].map(([id, text]) => (
             <button key={id} className={`nav-link ${activeTab === id && page !== "detail" ? "active" : ""}`} onClick={() => handleTabSelect(id)}>
               {text}
@@ -797,7 +773,7 @@ export default function App() {
               </div>
               <div className="hero-content">
                 <div className="hero-badge">
-                  <FireIcon size={12} /> الأكثر مشاهدة اليوم
+                  <FireIcon size={12} /> Most Watched Today
                 </div>
                 <h1 className="hero-title">{currentHero.title || currentHero.name}</h1>
                 <div className="hero-meta">
@@ -808,7 +784,7 @@ export default function App() {
                 </div>
                 <p className="hero-desc">{currentHero.overview}</p>
                 <button className="btn btn-primary" onClick={() => handlePlay(currentHero)}>
-                  <PlayIcon size={16} /> شاهد العرض الآن
+                  <PlayIcon size={16} /> Watch Now
                 </button>
               </div>
             </div>
@@ -819,7 +795,7 @@ export default function App() {
               <input
                 type="text"
                 className="search-input"
-                placeholder="ابحث هنا عن الفيلم، المسلسل أو الأنمي المفضل لديك..."
+                placeholder="Search for your favorite movie, show, or anime..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
@@ -841,7 +817,7 @@ export default function App() {
                         <div className="search-result-meta">
                           <span>🌟 {m.vote_average ? m.vote_average.toFixed(1) : "0.0"}</span>
                           <span>|</span>
-                          <span>{m.title ? "فيلم" : "مسلسل/أنمي"}</span>
+                          <span>{m.title ? "Movie" : "TV/Anime"}</span>
                         </div>
                       </div>
                     </div>
@@ -854,25 +830,25 @@ export default function App() {
           {activeTab === "home" && (
             <>
               {historyItems.length > 0 && (
-                <MovieGrid title="🕒 تابع المشاهدة مؤخراً" movies={historyItems} onPlay={handlePlay} loading={false} />
+                <MovieGrid title="🕒 Recently Watched" movies={historyItems} onPlay={handlePlay} loading={false} />
               )}
-              <MovieGrid title="🔥 تريند ومقترحات اليوم العالمية" movies={trending} onPlay={handlePlay} loading={loading} />
+              <MovieGrid title="🔥 Trending & Today's Picks" movies={trending} onPlay={handlePlay} loading={loading} />
             </>
           )}
           {activeTab === "movies" && (
             <>
-              <MovieGrid title="🎬 الإنتاجات السينمائية العربية الحصرية" movies={arabicMovies} onPlay={handlePlay} loading={loading} />
-              <MovieGrid title="🇺🇸 أفلام هوليوود الأجنبية المترجمة" movies={hollywoodMovies} onPlay={handlePlay} loading={loading} />
+              <MovieGrid title="🎬 Arabic Exclusive Films" movies={arabicMovies} onPlay={handlePlay} loading={loading} />
+              <MovieGrid title="🇺🇸 Hollywood (Subtitled)" movies={hollywoodMovies} onPlay={handlePlay} loading={loading} />
             </>
           )}
           {activeTab === "tvshows" && (
-            <MovieGrid title="📺 أحدث المسلسلات العربية والعالمية كاملة الفصول" movies={tvShows} onPlay={handlePlay} loading={loading} />
+            <MovieGrid title="📺 Latest TV Shows — Full Seasons" movies={tvShows} onPlay={handlePlay} loading={loading} />
           )}
           {activeTab === "anime" && (
-            <MovieGrid title="🎌 مكتبة عوالم الأنمي والكرتون الياباني المترجم" movies={anime} onPlay={handlePlay} loading={loading} />
+            <MovieGrid title="🎌 Anime Library (Subtitled)" movies={anime} onPlay={handlePlay} loading={loading} />
           )}
           {activeTab === "watchlist" && (
-            <MovieGrid title="❤️ قائمة أعمالك المفضلة والمحفوظة" movies={watchlistItems} onPlay={handlePlay} loading={loading} />
+            <MovieGrid title="❤️ Your Watchlist" movies={watchlistItems} onPlay={handlePlay} loading={loading} />
           )}
         </>
       )}
@@ -884,11 +860,11 @@ export default function App() {
       <div className="mobile-nav">
         <div className="mobile-nav-items">
           {[
-            ["home", "🏠", "الرئيسية"],
-            ["movies", "🎬", "أفلام"],
-            ["tvshows", "📺", "مسلسلات"],
-            ["anime", "🎌", "أنمي"],
-            ["watchlist", "❤️", "مفضلتي"]
+            ["home", "🏠", "Home"],
+            ["movies", "🎬", "Movies"],
+            ["tvshows", "📺", "TV Shows"],
+            ["anime", "🎌", "Anime"],
+            ["watchlist", "❤️", "Watchlist"]
           ].map(([id, icon, text]) => (
             <button key={id} className={`mobile-nav-item ${activeTab === id && page !== "detail" ? "active" : ""}`} onClick={() => handleTabSelect(id)}>
               <span style={{ fontSize: "1.25rem" }}>{icon}</span>
